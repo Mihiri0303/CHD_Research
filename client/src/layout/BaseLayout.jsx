@@ -8,13 +8,13 @@ import PageFallback from "../components/fallbacks/PageFallback";
 const BaseLayout = () => {
 	return (
 		<>
-			<div className="flex h-screen max-h-screen w-full flex-col bg-gray-200 pb-5 text-base">
+			<div className="flex h-screen max-h-screen w-full flex-col bg-gray-200 pb-5 text-base text-gray-600">
 				<Header></Header>
-				<div className="mx-auto grid h-full w-full max-w-screen-2xl grid-cols-4 gap-5 px-5 ">
+				<div className="mx-auto grid h-full w-full max-w-screen-2xl grid-cols-4 gap-5 overflow-hidden px-5 ">
 					<div className="col-span-1 h-full max-h-[1350px] rounded-md bg-gray-100">
 						<SideBar />
 					</div>
-					<div className="relative col-span-3 rounded-md bg-gray-100">
+					<div className="relative col-span-3 h-full overflow-y-auto rounded-md bg-gray-100 p-7">
 						<Suspense fallback={<PageFallback />}>
 							<Outlet />
 						</Suspense>

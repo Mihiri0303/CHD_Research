@@ -12,7 +12,7 @@ const SideBar = () => {
 							className={({ isActive }) => {
 								return `${
 									isActive ? "bg-blue-700 text-white" : "bg-white text-blue-700"
-								}  flex cursor-pointer items-center gap-3 rounded-md  p-2 px-3 font-medium  transition-all hover:bg-blue-700 hover:text-white`;
+								}  flex cursor-pointer items-center gap-3 rounded-md  p-2 px-3 font-medium  transition-all hover:bg-blue-800 hover:text-white`;
 							}}
 							end={!page.link}
 						>

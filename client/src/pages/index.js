@@ -6,6 +6,7 @@ import {
 	UserGroupIcon,
 	UsersIcon,
 } from "@heroicons/react/24/solid";
+import { Outlet } from "react-router-dom";
 
 const pages = [
 	{
@@ -19,15 +20,37 @@ const pages = [
 		),
 	},
 	{
-		title: "Child Management",
+		title: "Children Management",
 		icon: UsersIcon,
 		link: "children-management",
-		component: lazy(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(() => resolve(import("./dashboard")), 600);
-				})
-		),
+		component: Outlet,
+		children: [
+			{
+				component: lazy(() => import("./children-management/ChildrenDashboard")),
+			},
+			{
+				link: "profile",
+				component: lazy(() => import("./children-management/ChildrenProfile")),
+			},
+			{
+				link: ":child_id",
+				component: Outlet,
+				children: [
+					{
+						link: "growth",
+						component: lazy(() => import("./children-management/child/Growth")),
+					},
+					{
+						link: "vacination",
+						component: lazy(() => import("./children-management/child/Vacination")),
+					},
+					{
+						link: "new-born-report",
+						component: lazy(() => import("./children-management/child/NewBornReport")),
+					},
+				],
+			},
+		],
 	},
 	{
 		title: "User Management",
