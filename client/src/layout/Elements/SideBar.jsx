@@ -6,7 +6,7 @@ const SideBar = () => {
 		<div className="h-full p-3">
 			<ul className="flex h-full flex-col gap-1.5">
 				{pages.map((page, idx) => (
-					<li key={idx} className={`${idx + 1 === pages.length ? "mt-auto" : ""}`}>
+					<li key={idx} className={`${idx + 1 === pages.length ? "" : ""}`}>
 						<NavLink
 							to={page.link || "/"}
 							className={({ isActive }) => {

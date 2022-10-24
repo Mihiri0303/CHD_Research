@@ -6,6 +6,7 @@ import Input from "~/components/Input";
 import Select from "~/components/Select";
 import Textarea from "~/components/Textarea";
 import PageLayout from "~/layout/PageLayout";
+import NewParentModal from "../parent/NewParentModal";
 
 const ChildrenProfile = () => {
 	return (
@@ -23,14 +24,19 @@ const ChildrenProfile = () => {
 		>
 			<div className="space-y-8">
 				<div className="grid grid-cols-12 gap-5">
-					<div className="col-span-4">
+					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">Basic Info</p>
 						<p className="text-sm text-gray-400">This is the basic information.</p>
 					</div>
-					<div className="col-span-8 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6">
+					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
 						<Input label={"Full name"} type="text" className="col-span-2" />
 						<Select label={"Parent"} type="text" />
-						<PrimaryButton Icon={PlusIcon} className="mt-auto h-[2.6rem] w-max"></PrimaryButton>
+						<NewParentModal
+							triggerButton={({ openModal }) => (
+								<PrimaryButton Icon={PlusIcon} onClick={openModal} className="mt-auto h-[2.6rem] w-max"></PrimaryButton>
+							)}
+						/>
+
 						<Select label={"Gender"} options={[{ value: "male", label: "Male" }]} />
 						<Input label={"Total siblings"} type="text" />
 						<Input label={"Birth date"} type="date" className="col-start-1" />
@@ -38,22 +44,22 @@ const ChildrenProfile = () => {
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
-					<div className="col-span-4">
+					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">Birth Location Info</p>
 						<p className="text-sm text-gray-400">This is the Birth Location Info information.</p>
 					</div>
-					<div className="col-span-8 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6">
+					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
 						<Select label={"District"} />
 						<Select label={"Region"} />
 						<Input label={"Hospital"} type="text" />
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
-					<div className="col-span-4">
+					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">Breast feeding</p>
 						<p className="text-sm text-gray-400">This is the all about the method of mother's Brest feeding.</p>
 					</div>
-					<div className="col-span-8 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6">
+					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
 						<Select label={"Feeding Position"} />
 						<Select label={"Feeding Contact"} />
 						<div className="flex items-center gap-2">
@@ -76,13 +82,13 @@ const ChildrenProfile = () => {
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
-					<div className="col-span-4">
+					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">New Born Health Info</p>
 						<p className="text-sm text-gray-400">
 							This is the basic information about the condition of the child on birth.
 						</p>
 					</div>
-					<div className="col-span-8 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6">
+					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
 						<Input label={"APGA value"} type="text" />
 						<Input label={"Birth weight"} type="text" className="col-start-1" />
 						<Input label={"Birth length"} type="text" />
@@ -99,11 +105,11 @@ const ChildrenProfile = () => {
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
-					<div className="col-span-4">
+					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">Reasons for special attention</p>
 						<p className="text-sm text-gray-400">These are all reasons that child to have special attention.</p>
 					</div>
-					<div className="col-span-8 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6">
+					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
 						{reasonsForSpecialAttention.map(({ value, label }, idx) => (
 							<div key={idx} className="col-start-1 flex items-center gap-2">
 								<input

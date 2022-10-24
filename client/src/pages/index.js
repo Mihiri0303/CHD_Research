@@ -15,7 +15,7 @@ const pages = [
 		component: lazy(
 			() =>
 				new Promise((resolve) => {
-					setTimeout(() => resolve(import("./dashboard")), 600);
+					setTimeout(() => resolve(import("./dashboard/Dashboard")), 600);
 				})
 		),
 	},
@@ -26,65 +26,72 @@ const pages = [
 		component: Outlet,
 		children: [
 			{
-				component: lazy(() => import("./children-management/ChildrenDashboard")),
+				component: lazy(() => import("./children/ChildrenDashboard")),
 			},
 			{
 				link: "profile",
-				component: lazy(() => import("./children-management/ChildrenProfile")),
+				component: lazy(() => import("./children/ChildrenProfile")),
 			},
 			{
 				link: ":child_id",
 				component: Outlet,
 				children: [
 					{
+						link: "profile",
+						component: lazy(() => import("./children/ChildrenProfile")),
+					},
+					{
 						link: "growth",
-						component: lazy(() => import("./children-management/child/Growth")),
+						component: lazy(() => import("./children/child/Growth")),
 					},
 					{
 						link: "vacination",
-						component: lazy(() => import("./children-management/child/Vacination")),
+						component: lazy(() => import("./children/child/Vacination")),
 					},
 					{
 						link: "new-born-report",
-						component: lazy(() => import("./children-management/child/NewBornReport")),
+						component: lazy(() => import("./children/child/NewBornReport")),
+					},
+					{
+						link: "reports",
+						component: lazy(() => import("./children/child/Reports")),
+					},
+					{
+						link: "clinic-date",
+						component: lazy(() => import("./children/child/Reports")),
 					},
 				],
 			},
 		],
 	},
 	{
-		title: "User Management",
+		title: "Parent Management",
 		icon: UserGroupIcon,
-		link: "user-management",
-		component: lazy(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(() => resolve(import("./dashboard")), 600);
-				})
-		),
+		link: "parent-management",
+		component: lazy(() => import("./parent/ParentDashboard")),
 	},
-	{
-		title: "Reports",
-		icon: PresentationChartLineIcon,
-		link: "reports",
-		component: lazy(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(() => resolve(import("./dashboard")), 600);
-				})
-		),
-	},
-	{
-		title: "Settings",
-		icon: Cog8ToothIcon,
-		link: "settigns",
-		component: lazy(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(() => resolve(import("./dashboard")), 600);
-				})
-		),
-	},
+	// {
+	// 	title: "Reports",
+	// 	icon: PresentationChartLineIcon,
+	// 	link: "reports",
+	// 	component: lazy(
+	// 		() =>
+	// 			new Promise((resolve) => {
+	// 				setTimeout(() => resolve(import("./dashboard/Dashboard")), 600);
+	// 			})
+	// 	),
+	// },
+	// {
+	// 	title: "Settings",
+	// 	icon: Cog8ToothIcon,
+	// 	link: "settigns",
+	// 	component: lazy(
+	// 		() =>
+	// 			new Promise((resolve) => {
+	// 				setTimeout(() => resolve(import("./dashboard/Dashboard")), 600);
+	// 			})
+	// 	),
+	// },
 ];
 
 export default pages;

@@ -30,13 +30,14 @@ export const PrimaryButton = ({ Icon, className, children, to, ...props }) => {
 	);
 };
 
-export const SmallIconLink = ({ to, Icon, tooltip }) => {
+export const SmallIconLink = ({ to, Icon, tooltip, ...props }) => {
+	const ButtonElm = !to ? Button : NavLink;
 	return (
-		<NavLink to={to} className="group/tooltip  relative z-10 rounded-md transition-all hover:bg-white">
+		<ButtonElm to={to} {...props} className="group/tooltip  relative z-10 rounded-md transition-all hover:bg-white">
 			{Icon}
 			<div className="absolute top-full left-0 translate-y-1 whitespace-nowrap rounded-md bg-gray-700 p-1 px-2 leading-none text-gray-100 opacity-0 group-hover/tooltip:opacity-100">
 				{tooltip}
 			</div>
-		</NavLink>
+		</ButtonElm>
 	);
 };
