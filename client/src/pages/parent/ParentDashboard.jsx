@@ -12,6 +12,8 @@ import { PrimaryButton, SmallIconLink } from "~/components/Button";
 import Input from "~/components/Input";
 import PageLayout from "~/layout/PageLayout";
 import NewParentModal from "./NewParentModal";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const defaultData = [
 	{
@@ -43,34 +45,34 @@ const defaultData = [
 const columnHelper = createColumnHelper();
 
 const columns = [
-	columnHelper.accessor("firstName", {
-		cell: (info) => info.getValue(),
+	columnHelper.accessor((row, index) => index + 1, {
+		header: "No.",
 	}),
-	columnHelper.accessor((row) => row.lastName, {
-		id: "lastName",
-		cell: (info) => <i>{info.getValue()}</i>,
-		header: () => <span>Last Name</span>,
+	columnHelper.accessor("motherName", {
+		header: "Mother Name",
 	}),
-	columnHelper.accessor("age", {
-		header: () => "Age",
-		cell: (info) => info.renderValue(),
+	columnHelper.accessor("motherNIC", {
+		header: "Mother NIC",
 	}),
-	columnHelper.accessor("visits", {
-		header: () => <span>Visits</span>,
+	columnHelper.accessor("fatherName", {
+		header: "Father Name",
 	}),
-	columnHelper.accessor("status", {
-		header: "Status",
+	columnHelper.accessor("fatherNIC", {
+		header: "Father NIC",
 	}),
-	columnHelper.accessor("progress", {
-		header: "Profile Progress",
+	columnHelper.accessor("contact", {
+		header: "Contact",
+	}),
+	columnHelper.accessor("address", {
+		header: "Address",
 	}),
 ];
 
 const ParentDashboard = ({}) => {
-	const [data, setData] = useState(() => [...defaultData]);
+	const { data, loading } = useQuery(["parent"], () => axios.get("/parent"));
 
 	const table = useReactTable({
-		data,
+		data: data?.data || [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	});

@@ -90,7 +90,9 @@ const columns = [
 	}),
 	columnHelper.accessor("condition", {
 		header: "Status",
-		cell: (cell) => <span className="rounded-md bg-green-100 p-1 px-2 text-green-500">{cell.getValue()}</span>,
+		cell: (cell) => (
+			<span className="whitespace-nowrap rounded-md bg-green-100 p-1 px-2 text-green-500">{cell.getValue()}</span>
+		),
 	}),
 ];
 

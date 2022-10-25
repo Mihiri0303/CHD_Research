@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 var logger = require("morgan");
+const routes = require("./routes");
 const { sequelize } = require("./models/index");
 
 const app = express();
@@ -12,7 +13,7 @@ const initialCorsOptions = {
 	methods: ["GET", "POST", "DELETE", "PUT"],
 };
 
-var allowlist = [process.env.WEB_URL];
+var allowlist = [process.env.WEB_URL, "http://localhost:7000"];
 var corsOptionsDelegate = function (req, callback) {
 	var corsOptions;
 	if (allowlist.indexOf(req.header("Origin")) !== -1) {
@@ -35,14 +36,12 @@ app.use(
 	})
 );
 
-// app.use((req, res, next) => {
-// 	next(createError(404));
-// });
-
 app.get("/sync", async (req, res) => {
 	await sequelize.sync({ force: true });
 	res.send("done");
 });
+
+app.use(routes);
 
 app.listen(PORT, () => {
 	console.log("Server is live on: http://localhost:" + PORT);

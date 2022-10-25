@@ -55,7 +55,9 @@ const Modal = ({ modalTriggerButton, title, containerClass, children, modalActio
 											<XMarkIcon className="h-5 w-5"></XMarkIcon>
 										</button>
 									</Dialog.Title>
-									<div className="flex-1 overflow-y-auto py-4">{children}</div>
+									<div className="flex-1 overflow-y-auto py-4">
+										{typeof children === "function" ? children({ open, closeModal }) : children}
+									</div>
 
 									<div className="flex items-center gap-3 border-t border-gray-200 pt-4 font-medium">
 										{modalActions?.({ open, closeModal })}
