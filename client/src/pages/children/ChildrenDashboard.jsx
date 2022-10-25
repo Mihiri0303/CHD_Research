@@ -28,7 +28,7 @@ const defaultData = [
 		name: "Mihiri Sulochana",
 		birthdate: new Date().toLocaleString(),
 		hso: "Kalutara",
-		reginalHso: "Koholana",
+		regionalHso: "Koholana",
 		condition: "Good Health",
 	},
 	{
@@ -41,7 +41,7 @@ const defaultData = [
 		name: "Mihiri Sulochana",
 		birthdate: new Date().toLocaleString(),
 		hso: "Kalutara",
-		reginalHso: "Koholana",
+		regionalHso: "Koholana",
 		condition: "Good Health",
 	},
 	{
@@ -54,7 +54,7 @@ const defaultData = [
 		name: "Mihiri Sulochana",
 		birthdate: new Date().toLocaleString(),
 		hso: "Kalutara",
-		reginalHso: "Koholana",
+		regionalHso: "Koholana",
 		condition: "Good Health",
 	},
 ];
@@ -85,8 +85,8 @@ const columns = [
 	columnHelper.accessor("hso", {
 		header: "HSO",
 	}),
-	columnHelper.accessor("reginalHso", {
-		header: "Reginal HSO",
+	columnHelper.accessor("regionalHso", {
+		header: "Regional HSO",
 	}),
 	columnHelper.accessor("condition", {
 		header: "Status",

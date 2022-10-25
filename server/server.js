@@ -1,9 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-var createError = require("http-errors");
 var logger = require("morgan");
-const passport = require("passport");
+const { sequelize } = require("./models/index");
 
 const app = express();
 
@@ -39,6 +38,11 @@ app.use(
 // app.use((req, res, next) => {
 // 	next(createError(404));
 // });
+
+app.get("/sync", async (req, res) => {
+	await sequelize.sync({ force: true });
+	res.send("done");
+});
 
 app.listen(PORT, () => {
 	console.log("Server is live on: http://localhost:" + PORT);
