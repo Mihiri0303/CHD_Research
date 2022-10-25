@@ -21,7 +21,7 @@ const Input = ({
 			<div className="relative w-full overflow-visible">
 				<input
 					type={type || "text"}
-					step=".01"
+					step={type === "number" ? ".01" : undefined}
 					{...props}
 					name={name}
 					required={required}

@@ -11,10 +11,12 @@ import Textarea from "~/components/Textarea";
 import PageLayout from "~/layout/PageLayout";
 import NewParentModal from "../parent/NewParentModal";
 import { feedingPosition } from "~/constants/dropdowns";
+import { useNavigate } from "react-router-dom";
 
 const ChildrenProfile = () => {
 	const formRef = useRef(null);
 	const { data, loading } = useQuery(["parent"], () => axios.get("/parent"));
+	const navigate = useNavigate();
 
 	const save = async (e) => {
 		e.preventDefault();
@@ -25,6 +27,7 @@ const ChildrenProfile = () => {
 		childData.viteminKInjected = childData.viteminKInjected ? 1 : 0;
 		await axios.post("/child", childData);
 		query.invalidateQueries("child");
+		navigate("/children-management");
 	};
 
 	return (
