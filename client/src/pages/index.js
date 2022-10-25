@@ -33,7 +33,7 @@ const pages = [
 				component: lazy(() => import("./children/ChildrenProfile")),
 			},
 			{
-				link: ":child_id",
+				link: ":childId",
 				component: Outlet,
 				children: [
 					{

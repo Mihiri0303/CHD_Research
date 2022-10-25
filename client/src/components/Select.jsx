@@ -2,10 +2,9 @@ import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useMemo, useState, Fragment, useRef } from "react";
 
-function Select(props) {
+function Select({ name, ...props }) {
 	const {
 		label,
-		name,
 		placeholder,
 		containerclasses,
 		labelclasses,
@@ -41,6 +40,7 @@ function Select(props) {
 					{({ open }) => (
 						<div className="relative">
 							<div className="">
+								<input type="text" name={name} defaultValue={selected?.value} hidden />
 								<Combobox.Input
 									className={`w-full rounded-md border-gray-300 pr-8 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 ${
 										props.error && "border-red-500 pr-16 focus:border-red-500 focus:ring-red-500"

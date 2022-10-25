@@ -1,14 +1,32 @@
+import { useRef } from "react";
 import { ArchiveBoxArrowDownIcon, XCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 import { SecondaryButton, PrimaryButton } from "~/components/Button";
-import { healthStatus, reasonsForSpecialAttention } from "~/constants/dropdowns";
+import { feedingContact, healthStatus, reasonsForSpecialAttention } from "~/constants/dropdowns";
 import Input from "~/components/Input";
 import Select from "~/components/Select";
 import Textarea from "~/components/Textarea";
 import PageLayout from "~/layout/PageLayout";
 import NewParentModal from "../parent/NewParentModal";
+import { feedingPosition } from "~/constants/dropdowns";
 
 const ChildrenProfile = () => {
+	const formRef = useRef(null);
+	const { data, loading } = useQuery(["parent"], () => axios.get("/parent"));
+
+	const save = async (e) => {
+		e.preventDefault();
+		const formData = new FormData(e.target);
+		const childData = Object.fromEntries([...formData]);
+		childData.feedWithinHour = childData.feedWithinHour ? 1 : 0;
+		childData.CHTest = childData.CHTest ? 1 : 0;
+		childData.viteminKInjected = childData.viteminKInjected ? 1 : 0;
+		await axios.post("/child", childData);
+		query.invalidateQueries("child");
+	};
+
 	return (
 		<PageLayout
 			withBack
@@ -18,29 +36,46 @@ const ChildrenProfile = () => {
 					<SecondaryButton Icon={XCircleIcon} className={"ml-auto"}>
 						Cancel
 					</SecondaryButton>
-					<PrimaryButton Icon={ArchiveBoxArrowDownIcon}>Save</PrimaryButton>
+					<PrimaryButton onClick={() => formRef.current?.requestSubmit()} Icon={ArchiveBoxArrowDownIcon}>
+						Save
+					</PrimaryButton>
 				</>
 			}
 		>
-			<div className="space-y-8">
+			<form ref={formRef} onSubmit={save} className="space-y-8">
 				<div className="grid grid-cols-12 gap-5">
 					<div className="col-span-12 md:col-span-4">
 						<p className="text-lg font-bold">Basic Info</p>
 						<p className="text-sm text-gray-400">This is the basic information.</p>
 					</div>
 					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
-						<Input label={"Full name"} type="text" className="col-span-2" />
-						<Select label={"Parent"} type="text" />
+						<Input name="name" label={"Full name"} type="text" className="col-span-2" />
+						<Select
+							name="parentId"
+							label={"Parent"}
+							options={data?.data?.map((a) => ({ value: a.id, label: a.motherName + "-" + a.motherNIC }))}
+						/>
 						<NewParentModal
 							triggerButton={({ openModal }) => (
-								<PrimaryButton Icon={PlusIcon} onClick={openModal} className="mt-auto h-[2.6rem] w-max"></PrimaryButton>
+								<PrimaryButton
+									type="button"
+									Icon={PlusIcon}
+									onClick={openModal}
+									className="mt-auto h-[2.6rem] w-max"
+								></PrimaryButton>
 							)}
 						/>
 
-						<Select label={"Gender"} options={[{ value: "male", label: "Male" }]} />
-						<Input label={"Total siblings"} type="text" />
-						<Input label={"Birth date"} type="date" className="col-start-1" />
-						<Input label={"Birth time"} type="time" />
+						<Select
+							name="gender"
+							label={"Gender"}
+							options={[
+								{ value: "male", label: "Male" },
+								{ value: "female", label: "Female" },
+							]}
+						/>
+						<Input name="totalSiblings" label={"Total siblings"} type="text" />
+						<Input name="birthdate" label={"Birth date"} type="datetime-local" className="col-span-2" />
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
@@ -49,9 +84,9 @@ const ChildrenProfile = () => {
 						<p className="text-sm text-gray-400">This is the Birth Location Info information.</p>
 					</div>
 					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
-						<Select label={"District"} />
-						<Select label={"Region"} />
-						<Input label={"Hospital"} type="text" />
+						<Input name="district" label={"District"} />
+						<Input name="region" label={"Region"} />
+						<Input name="hospital" label={"Hospital"} type="text" />
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
@@ -60,12 +95,12 @@ const ChildrenProfile = () => {
 						<p className="text-sm text-gray-400">This is the all about the method of mother's Brest feeding.</p>
 					</div>
 					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
-						<Select label={"Feeding Position"} />
-						<Select label={"Feeding Contact"} />
+						<Select name="feedingPosition" label={"Feeding Position"} options={feedingPosition} />
+						<Select name="feedingContact" label={"Feeding Contact"} options={feedingContact} />
 						<div className="flex items-center gap-2">
 							<input
 								type="checkbox"
-								name="breastfed_in_first_hour"
+								name="feedWithinHour"
 								className="h-4 w-4 cursor-pointer rounded text-blue-600 focus:outline-blue-600 focus:ring-blue-600"
 							/>
 							Breastfed within an hour of born
@@ -73,12 +108,16 @@ const ChildrenProfile = () => {
 						<div className="col-start-1 flex items-center gap-2">
 							<input
 								type="checkbox"
-								name="congenital_hypothyroidism_test"
+								name="CHTest"
 								className="h-4 w-4 cursor-pointer rounded text-blue-600 focus:outline-blue-600 focus:ring-blue-600"
 							/>
 							Congenital hypothyroidism test
 						</div>
-						<Textarea label={"Congenital hypothyroidism test results"} className="col-span-2 col-start-1" />
+						<Textarea
+							name="CHTestResults"
+							label={"Congenital hypothyroidism test results"}
+							className="col-span-2 col-start-1"
+						/>
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-5">
@@ -89,15 +128,15 @@ const ChildrenProfile = () => {
 						</p>
 					</div>
 					<div className="col-span-12 grid grid-cols-2 gap-5 gap-y-6 rounded-md bg-white p-6 md:col-span-8">
-						<Input label={"APGA value"} type="text" />
-						<Input label={"Birth weight"} type="text" className="col-start-1" />
-						<Input label={"Birth length"} type="text" />
-						<Input label={"Head Circumference (cm) on birth"} type="text" />
-						<Select label={"Health Status"} containerclasses="col-start-1" options={healthStatus} />
+						<Input name="APGA" label={"APGA value"} type="text" />
+						<Input name="birthWeight" label={"Birth weight"} type="number" className="col-start-1" />
+						<Input name="birthHeight" label={"Birth length"} type="number" />
+						<Input name="birthHeadCircumference" label={"Head Circumference (cm) on birth"} type="number" />
+						<Select name="status" label={"Health Status"} containerclasses="col-start-1" options={healthStatus} />
 						<div className="mt-7 flex items-center gap-2">
 							<input
 								type="checkbox"
-								name="vitaminK"
+								name="viteminKInjected"
 								className="h-4 w-4 cursor-pointer rounded text-blue-600 focus:outline-blue-600 focus:ring-blue-600"
 							/>
 							Vitamin K Injected
@@ -122,7 +161,7 @@ const ChildrenProfile = () => {
 						))}
 					</div>
 				</div>
-			</div>
+			</form>
 		</PageLayout>
 	);
 };

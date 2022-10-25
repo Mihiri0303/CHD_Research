@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
 				allowNull: false,
 			},
 			weight: {
-				type: DataTypes.DECIMAL,
+				type: DataTypes.DOUBLE,
 			},
 			weightCondition: {
 				type: DataTypes.TEXT,
@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
 				type: DataTypes.TEXT,
 			},
 			height: {
-				type: DataTypes.DECIMAL,
+				type: DataTypes.DOUBLE,
 			},
 			heightCondition: {
 				type: DataTypes.TEXT,

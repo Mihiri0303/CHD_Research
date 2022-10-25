@@ -2,7 +2,7 @@ const express = require("express");
 const childRoutes = express.Router();
 const parentRoutes = express.Router();
 const BaseRouter = express.Router();
-const { Child, Parent } = require("../models");
+const { Child, ChildGrowth, Parent } = require("../models");
 
 childRoutes.post("/", async (req, res) => {
 	try {
@@ -10,6 +10,40 @@ childRoutes.post("/", async (req, res) => {
 			...req.body,
 		});
 		res.json(child);
+	} catch (error) {
+		console.error(error);
+	}
+});
+
+childRoutes.get("/", async (req, res) => {
+	try {
+		const children = await Child.findAll({
+			include: Parent,
+		});
+		res.json(children);
+	} catch (error) {
+		console.error(error);
+	}
+});
+childRoutes.get("/:childId/growth", async (req, res) => {
+	const { childId } = req.params;
+	try {
+		const childGrowth = await ChildGrowth.findAll({
+			where: {
+				childId: childId,
+			},
+		});
+		res.json(childGrowth);
+	} catch (error) {
+		console.error(error);
+	}
+});
+childRoutes.post("/:childId/growth", async (req, res) => {
+	try {
+		const childGrowth = await ChildGrowth.create({
+			...req.body,
+		});
+		res.json(childGrowth);
 	} catch (error) {
 		console.error(error);
 	}

@@ -5,6 +5,9 @@ import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "
 import PageLayout from "~/layout/PageLayout";
 import { SmallIconLink } from "~/components/Button";
 import NewGrowthRecordModal from "./elements/NewGrowthRecordModal";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const defaultData = [
 	{
@@ -22,7 +25,7 @@ const defaultData = [
 const columnHelper = createColumnHelper();
 
 const columns = [
-	columnHelper.accessor("date", {
+	columnHelper.accessor("createdAt", {
 		header: () => <span>Date</span>,
 	}),
 	columnHelper.group({
@@ -50,8 +53,9 @@ const columns = [
 			}),
 		],
 	}),
-	columnHelper.accessor("thriposh", {
+	columnHelper.accessor("thriposha", {
 		header: () => <span>Thriposh</span>,
+		cell: (cell) => (cell.getValue() ? "Yes" : "No"),
 	}),
 	columnHelper.accessor("memo", {
 		header: () => <span>Memo</span>,
@@ -59,10 +63,11 @@ const columns = [
 ];
 
 const Growth = () => {
-	const [data, setData] = useState(() => [...defaultData]);
+	const { childId } = useParams();
+	const { data, loading } = useQuery(["growth"], () => axios.get(`/child/${childId}/growth`));
 
 	const table = useReactTable({
-		data,
+		data: data?.data || [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	});

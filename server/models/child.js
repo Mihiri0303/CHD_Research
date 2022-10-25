@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
 				type: DataTypes.TEXT,
 				allowNull: false,
 			},
-			total_siblings: {
+			totalSiblings: {
 				type: DataTypes.INTEGER,
 			},
 			birthdate: {

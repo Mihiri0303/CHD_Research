@@ -16,3 +16,12 @@ export const reasonsForSpecialAttention = [
 	{ value: "parent_separation", label: "Separation/emigration of mother/father" },
 	{ value: "others", label: "Others" },
 ];
+
+export const feedingPosition = [{ value: "Normal", label: "Normal" }];
+
+export const feedingContact = [{ value: "Normal", label: "Normal" }];
+
+export const weightConditions = [{ value: "NW", label: "NW" }];
+export const weightGrowth = [{ value: "O", label: "O" }];
+
+export const heightConditions = [{ value: "NH", label: "NH" }];

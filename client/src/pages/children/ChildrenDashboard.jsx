@@ -16,6 +16,8 @@ import Input from "~/components/Input";
 import { NavLink } from "react-router-dom";
 import PageLayout from "~/layout/PageLayout";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const defaultData = [
 	{
@@ -62,7 +64,7 @@ const defaultData = [
 const columnHelper = createColumnHelper();
 
 const columns = [
-	columnHelper.accessor("id", {
+	columnHelper.accessor((row, index) => index + 1, {
 		header: "No.",
 	}),
 	columnHelper.accessor("name", {
@@ -71,24 +73,24 @@ const columns = [
 	columnHelper.accessor("birthdate", {
 		header: "Birth Date",
 	}),
-	columnHelper.accessor("parent", {
+	columnHelper.accessor("Parent", {
 		cell: (cell) => (
 			<div className="flex flex-col text-xs ">
 				<NavLink to="/parent-management" className="text-blue-700">
-					{cell.getValue().name}
+					{cell.getValue().motherName}
 				</NavLink>
-				<span className="text-gray-500">{cell.getValue().nic}</span>
+				<span className="text-gray-500">{cell.getValue().motherNIC}</span>
 			</div>
 		),
 		header: "Parent",
 	}),
-	columnHelper.accessor("hso", {
+	columnHelper.accessor("district", {
 		header: "HSO",
 	}),
-	columnHelper.accessor("regionalHso", {
+	columnHelper.accessor("region", {
 		header: "Regional HSO",
 	}),
-	columnHelper.accessor("condition", {
+	columnHelper.accessor("status", {
 		header: "Status",
 		cell: (cell) => (
 			<span className="whitespace-nowrap rounded-md bg-green-100 p-1 px-2 text-green-500">{cell.getValue()}</span>
@@ -97,10 +99,10 @@ const columns = [
 ];
 
 const ChildrenDashboard = ({}) => {
-	const [data, setData] = useState(() => [...defaultData]);
+	const { data, loading } = useQuery(["child"], () => axios.get("/child"));
 
 	const table = useReactTable({
-		data,
+		data: data?.data || [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	});
@@ -140,32 +142,32 @@ const ChildrenDashboard = ({}) => {
 								))}
 								<td className="absolute left-0 z-10 flex h-full w-2/5 items-center gap-1 rounded-md bg-gradient-to-r from-gray-200 via-gray-100 px-2 opacity-0 transition-all group-hover:opacity-100">
 									<SmallIconLink
-										to="2736476/profile"
+										to={`${row.original.id}/profile`}
 										tooltip="Profile"
 										Icon={<UserCircleIcon className="m-1 h-5 w-5 " />}
 									/>
 									<SmallIconLink
-										to="2736476/growth"
+										to={`${row.original.id}/growth`}
 										tooltip="Growth"
 										Icon={<ArrowTrendingUpIcon className="m-1 h-5 w-5 text-green-500" />}
 									/>
 									<SmallIconLink
-										to="2736476/vacination"
+										to={`${row.original.id}/vacination`}
 										tooltip="Vacination"
 										Icon={<ShieldCheckIcon className="m-1 h-5 w-5 text-blue-700" />}
 									/>
 									<SmallIconLink
-										to="2736476/new-born-report"
+										to={`${row.original.id}/new-born-report`}
 										tooltip="New Born Report"
 										Icon={<WalletIcon className="m-1 h-5 w-5 " />}
 									/>
 									<SmallIconLink
-										to="2736476/reports"
+										to={`${row.original.id}/reports`}
 										tooltip="Reports"
 										Icon={<PresentationChartLineIcon className="m-1 h-5 w-5 text-orange-500" />}
 									/>
 									<SmallIconLink
-										to="2736476/clinic-date"
+										to={`${row.original.id}/clinic-date`}
 										tooltip="Clinic Date"
 										Icon={<CalendarDaysIcon className="m-1 h-5 w-5" />}
 									/>

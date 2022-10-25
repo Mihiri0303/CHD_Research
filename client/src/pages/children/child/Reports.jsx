@@ -1,5 +1,8 @@
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { XCircleIcon, ArchiveBoxArrowDownIcon } from "@heroicons/react/24/outline";
 import { Line } from "react-chartjs-2";
+import axios from "axios";
 
 import { PrimaryButton, SecondaryButton } from "~/components/Button";
 import PageLayout from "~/layout/PageLayout";
@@ -15,6 +18,9 @@ const options = {
 };
 
 const Reports = () => {
+	const { childId } = useParams();
+	const { data, loading } = useQuery(["growth"], () => axios.get(`/child/${childId}/growth`));
+
 	return (
 		<PageLayout
 			withBack
@@ -95,7 +101,7 @@ const Reports = () => {
 								id: 2,
 								label: "Growth",
 								borderWidth: 1,
-								data: [3.5, 4, 5, 5.4],
+								data: data?.data?.sort((a, b) => a.createdAt - b.createdAt).map((a) => a.weight) || [],
 								borderColor: "rgb(0,0,0)",
 								backgroundColor: "rgb(0,0,0)",
 								pointBackgroundColor: "rgb(0,0,0)",
