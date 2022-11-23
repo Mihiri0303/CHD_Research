@@ -25,6 +25,7 @@ childRoutes.get("/", async (req, res) => {
 		console.error(error);
 	}
 });
+
 childRoutes.get("/:childId/growth", async (req, res) => {
 	const { childId } = req.params;
 	try {
@@ -32,12 +33,14 @@ childRoutes.get("/:childId/growth", async (req, res) => {
 			where: {
 				childId: childId,
 			},
+			order: [["createdAt", "ASC"]],
 		});
 		res.json(childGrowth);
 	} catch (error) {
 		console.error(error);
 	}
 });
+
 childRoutes.post("/:childId/growth", async (req, res) => {
 	try {
 		const childGrowth = await ChildGrowth.create({

@@ -72,6 +72,9 @@ const columns = [
 	}),
 	columnHelper.accessor("birthdate", {
 		header: "Birth Date",
+		cell: (cell) => {
+			return new Date(cell.getValue()).toLocaleDateString();
+		},
 	}),
 	columnHelper.accessor("Parent", {
 		cell: (cell) => (

@@ -27,6 +27,7 @@ const columnHelper = createColumnHelper();
 const columns = [
 	columnHelper.accessor("createdAt", {
 		header: () => <span>Date</span>,
+		cell: (cell) => new Date(cell.getValue()).toLocaleDateString(),
 	}),
 	columnHelper.group({
 		header: "Weight Growth",
